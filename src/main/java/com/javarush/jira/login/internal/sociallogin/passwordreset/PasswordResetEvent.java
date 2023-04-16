@@ -1,4 +1,4 @@
-package com.javarush.jira.login.internal.passwordreset;
+package com.javarush.jira.login.internal.sociallogin.passwordreset;
 
 import com.javarush.jira.common.AppEvent;
 import com.javarush.jira.login.User;

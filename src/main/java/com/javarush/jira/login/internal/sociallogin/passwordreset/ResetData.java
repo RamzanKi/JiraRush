@@ -1,4 +1,4 @@
-package com.javarush.jira.login.internal.passwordreset;
+package com.javarush.jira.login.internal.sociallogin.passwordreset;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
