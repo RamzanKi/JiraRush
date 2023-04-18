@@ -115,6 +115,8 @@ spring:
     password: ${MAIL_PASSWORD}
     port: ${MAIL_PORT}
   thymeleaf.check-template-location: false
+#  thymeleaf:
+#    prefix: classpath:/templates/
   config:
     import: storage.properties
 

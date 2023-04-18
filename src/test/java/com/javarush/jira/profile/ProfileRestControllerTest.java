@@ -81,7 +81,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         profileRepository.save(newProfile);
 
         perform(MockMvcRequestBuilders.get(REST_URL)
-                        .with(user(authUser)))
+                .with(user(authUser)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(testProfileTo.getId().intValue()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.mailNotifications[0]").value("deadline"))
@@ -103,9 +103,9 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
         ProfileTo updatedProfileTo = new ProfileTo(testProfileTo.getId(), updatedMailNotifications, null);
 
         perform(MockMvcRequestBuilders.put(REST_URL)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updatedProfileTo))
-                        .with(user(authUser)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updatedProfileTo))
+                .with(user(authUser)))
                 .andExpect(status().isNoContent());
 
         Profile updatedProfile = profileRepository.getOrCreate(testProfileTo.getId());

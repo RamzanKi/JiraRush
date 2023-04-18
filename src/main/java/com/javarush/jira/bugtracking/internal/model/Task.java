@@ -42,11 +42,11 @@ public class Task extends TitleEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;
 
@@ -68,11 +68,11 @@ public class Task extends TitleEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<@Size(min = 2, max = 32) String> tags = Set.of();
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
     private List<Activity> activities;
 
     @Nullable
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Task parent;

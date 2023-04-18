@@ -25,7 +25,7 @@ import java.net.URI;
 @RequestMapping(UserController.REST_URL)
 @CacheConfig(cacheNames = "users")
 public class UserController extends AbstractUserController {
-    public static final String REST_URL = "/api/users";
+    public static final String REST_URL = "api/users";
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

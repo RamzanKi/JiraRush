@@ -85,6 +85,12 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("file:./resources/static/");
         registry.setOrder(Integer.MAX_VALUE);
+
+//        registry.addResourceHandler("/**")
+//                .addResourceLocations("classpath:/mails/")
+//                .addResourceLocations("classpath:/static/")
+//                .addResourceLocations("classpath:/view/");
+
     }
 
     @Bean

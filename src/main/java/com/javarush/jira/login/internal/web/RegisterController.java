@@ -24,7 +24,7 @@ import static com.javarush.jira.common.util.validation.ValidationUtil.checkNew;
 @RequestMapping(RegisterController.REGISTER_URL)
 @RequiredArgsConstructor
 public class RegisterController extends AbstractUserController {
-    static final String REGISTER_URL = "/ui/register";
+    static final String REGISTER_URL = "ui/register";
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -44,7 +44,7 @@ public class RegisterController extends AbstractUserController {
         ConfirmData confirmData = new ConfirmData(userTo);
         request.getSession().setAttribute("token", confirmData);
         eventPublisher.publishEvent(new RegistrationConfirmEvent(userTo, confirmData.getToken()));
-        return "redirect:/view/login";
+        return "redirect:view/login";
     }
 
     @GetMapping("/confirm")

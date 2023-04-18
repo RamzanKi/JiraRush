@@ -18,8 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping(UserUIController.USER_URL)
 @RequiredArgsConstructor
 public class UserUIController extends AbstractUserController {
-    public static final String USER_URL = "/ui/user";
-    private static final String REDIRECT_PROFILE = "/ui/profile";
+    public static final String USER_URL = "ui/user";
+    private static final String REDIRECT_PROFILE = "ui/profile";
     private static final String USER_ERROR_ATTRIBUTE = "userError";
     private static final String USER_SUCCESS_ATTRIBUTE = "userSuccess";
 
