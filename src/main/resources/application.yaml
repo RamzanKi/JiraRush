@@ -119,6 +119,8 @@ spring:
 #    prefix: classpath:/templates/
   config:
     import: storage.properties
+  messages:
+    basename: lang/messages
 
 logging:
   level:

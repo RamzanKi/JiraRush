@@ -5,8 +5,14 @@
 
 <th:block th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain})}">
     <appMain>
-        <h1>Dashboard</h1>
-        <a th:href="@{/backlog}" class="btn btn-primary">Backlog</a>
+        <h1 th:text="#{welcome}"></h1>
+        <body>
+        <span th:text="#{hello}"></span><br>
+        <span th:text="#{welcome}"></span><br>
+        <button type="button" th:text="#{switch-en}" onclick="window.location.href='http://localhost:8080/?localeData=en'"></button> <!-- 3 -->
+        <button type="button" th:text="#{switch-it}" onclick="window.location.href='http://localhost:8080/?localeData=it'"></button>
+        </body>
+        <a th:href="@{/backlog}" class="btn btn-primary" th:text="#{backlog}"></a>
         <div class="container text-center">
             <div class="row " th:each="entry: ${taskMap}">
                 <div class="card">
@@ -34,5 +40,17 @@
                 </div>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#locales").change(function () {
+                    var selectedOption = $('#locales').val();
+                    if (selectedOption != ''){
+                        window.location.replace('?lang=' + selectedOption);
+                    }
+                });
+            });
+        </script>
     </appMain>
 </th:block>
