@@ -1,6 +1,8 @@
 package com.javarush.jira.bugtracking;
 
 import com.javarush.jira.bugtracking.internal.mapper.TaskMapperImpl;
+import com.javarush.jira.bugtracking.internal.model.Activity;
+import com.javarush.jira.bugtracking.internal.model.Project;
 import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.internal.model.UserBelong;
 import com.javarush.jira.bugtracking.to.SprintTo;
@@ -16,6 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +35,7 @@ public class DashboardUIController {
 
     private TaskService taskService;
 
+    private ProjectService projectService;
     @GetMapping("/") // index page
     public String getAll(Model model) {
         List<TaskTo> tasks = taskService.getAll();
@@ -36,6 +43,13 @@ public class DashboardUIController {
                 .collect(Collectors.groupingBy(TaskTo::getSprint));
         model.addAttribute("taskMap", taskMap);
         return "index";
+    }
+
+    @GetMapping("/exec/{ID}")
+    public ResponseEntity<String> getTaskExecutionTime(@PathVariable("ID") long id) {
+        String taskExecTime = taskService.getTaskExecTime(id);
+
+        return ResponseEntity.ok(taskExecTime);
     }
 
     @PostMapping("/task/{ID}")

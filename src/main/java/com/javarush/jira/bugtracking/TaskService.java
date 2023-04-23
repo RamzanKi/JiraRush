@@ -1,8 +1,10 @@
 package com.javarush.jira.bugtracking;
 
 import com.javarush.jira.bugtracking.internal.mapper.TaskMapper;
+import com.javarush.jira.bugtracking.internal.model.Activity;
 import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.internal.model.UserBelong;
+import com.javarush.jira.bugtracking.internal.repository.ActivityRepository;
 import com.javarush.jira.bugtracking.internal.repository.TaskRepository;
 import com.javarush.jira.bugtracking.internal.repository.UserBelongRepository;
 import com.javarush.jira.bugtracking.to.ObjectType;
@@ -10,9 +12,9 @@ import com.javarush.jira.bugtracking.to.TaskTo;
 import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,29 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
     @Autowired
     private UserBelongRepository userBelongRepository;
 
+    @Autowired
+    private ActivityRepository activityRepository;
+
+    public String getTaskExecTime(Long id) {
+        Activity activity = activityRepository.findActivityByTaskId(id);
+        if (activity == null) {
+            return "no activities for this task";
+        }
+
+        Task task = repository.findById(id).get();
+        Duration between = Duration.between(task.getStartpoint(), task.getEndpoint());
+
+        long hours = between.toHours();
+        long minutes = between.toMinutesPart();
+        long seconds = between.toSecondsPart();
+        String formattedDuration = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+        return formattedDuration;
+    }
+
+    public Task save(Task task) {
+        return repository.save(task);
+    }
 
     public TaskService(TaskRepository repository, TaskMapper mapper) {
         super(repository, mapper);
@@ -95,4 +120,5 @@ public class TaskService extends BugtrackingService<Task, TaskTo, TaskRepository
         int delete = userBelongRepository.delete(userBelong.id());
         return delete;
     }
+
 }

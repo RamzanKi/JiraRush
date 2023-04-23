@@ -11,8 +11,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,6 +61,14 @@ public class Task extends TitleEntity {
     @Positive
     private Integer estimate;
 
+    @CreationTimestamp
+    @Column(name = "startpoint")
+    private LocalDateTime startpoint;
+
+//    @UpdateTimestamp
+    @Column(name = "endpoint")
+    private LocalDateTime endpoint;
+
     @CollectionTable(name = "task_tag",
             joinColumns = @JoinColumn(name = "task_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"task_id", "tag"}, name = "uk_task_tag"))
@@ -76,4 +86,9 @@ public class Task extends TitleEntity {
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Task parent;
+
+    @PreUpdate
+    public void onUpdate() {
+        endpoint = LocalDateTime.now();
+    }
 }

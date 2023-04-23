@@ -6,4 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 public interface ActivityRepository extends BaseRepository<Activity> {
+
+    public Activity findActivityByTaskId(Long id);
 }
