@@ -3,13 +3,19 @@ package com.javarush.jira.login.internal.web;
 import com.javarush.jira.common.error.DataConflictException;
 import com.javarush.jira.common.util.validation.View;
 import com.javarush.jira.login.UserTo;
+
 import com.javarush.jira.login.internal.verification.ConfirmData;
 import com.javarush.jira.login.internal.verification.RegistrationConfirmEvent;
+import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +30,14 @@ import static com.javarush.jira.common.util.validation.ValidationUtil.checkNew;
 @RequestMapping(RegisterController.REGISTER_URL)
 @RequiredArgsConstructor
 public class RegisterController extends AbstractUserController {
-    static final String REGISTER_URL = "ui/register";
+
+    @Autowired
+    private AuthenticationManager authManager;
+
+//    @Autowired
+//    private JwtTokenProvider jwtTokenProvider;
+
+    static final String REGISTER_URL = "/ui/register";
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -41,10 +54,22 @@ public class RegisterController extends AbstractUserController {
         }
         log.info("register {}", userTo);
         checkNew(userTo);
+
+
+
         ConfirmData confirmData = new ConfirmData(userTo);
+
+//        Authentication authentication = authManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        confirmData.getUserTo().getEmail(), confirmData.getUserTo().getPassword()));
+
+//        String token = jwtTokenProvider.createToken(authentication);
+
+//        confirmData.setToken(token);
+
         request.getSession().setAttribute("token", confirmData);
         eventPublisher.publishEvent(new RegistrationConfirmEvent(userTo, confirmData.getToken()));
-        return "redirect:view/login";
+        return "redirect:/view/login";
     }
 
     @GetMapping("/confirm")
