@@ -7,6 +7,7 @@ import com.javarush.jira.bugtracking.internal.model.Task;
 import com.javarush.jira.bugtracking.internal.model.UserBelong;
 import com.javarush.jira.bugtracking.to.SprintTo;
 import com.javarush.jira.bugtracking.to.TaskTo;
+import com.javarush.jira.login.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -83,23 +85,17 @@ public class DashboardUIController {
         }
     }
 
-//    @GetMapping("/backlog")
-//    public String getBacklog(Model model) {
-//        List<TaskTo> tasks = taskService.findBySprintIdIsNull();
-//
-//        Map<String, List<TaskTo>> taskMap = tasks.stream()
-//                .collect(Collectors.groupingBy(TaskTo::getPriorityCode));
-//        model.addAttribute("backlog", taskMap);
-//
-////        model.addAttribute("backlog", tasks);
-//        return "backlog";
-//    }
-
     @GetMapping("/backlog")
     public String getBacklog(@RequestParam(defaultValue = "1") int page,
                              @RequestParam(defaultValue = "10") int size,
                              Model model) {
         List<TaskTo> tasks = taskService.findBySprintIdIsNull();
+
+        if (tasks.size() == 0) {
+            model.addAttribute("totalPages", 0);
+            model.addAttribute("currentPage", 0);
+            return "backlog";
+        }
 
         int totalPages = (int) Math.ceil((double) tasks.size() / size);
         int startIndex = (page - 1) * size;
