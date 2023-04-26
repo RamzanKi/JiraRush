@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
-//@Setter
+@Setter
 @ToString
 public class ConfirmData implements Serializable {
     private final UserTo userTo;
@@ -18,7 +18,7 @@ public class ConfirmData implements Serializable {
 
     public ConfirmData(@NonNull UserTo user) {
         this.userTo = user;
-        this.token = UUID.randomUUID().toString();
-//        this.token = "";
+//        this.token = UUID.randomUUID().toString();
+        this.token = "";
     }
 }
