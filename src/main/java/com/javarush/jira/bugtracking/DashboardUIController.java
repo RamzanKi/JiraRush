@@ -1,6 +1,6 @@
 package com.javarush.jira.bugtracking;
 
-import com.javarush.jira.bugtracking.internal.mapper.TaskMapperImpl;
+import com.javarush.jira.bugtracking.internal.mapper.TaskMapper;
 import com.javarush.jira.bugtracking.internal.model.Activity;
 import com.javarush.jira.bugtracking.internal.model.Project;
 import com.javarush.jira.bugtracking.internal.model.Task;
@@ -10,6 +10,7 @@ import com.javarush.jira.bugtracking.to.TaskTo;
 import com.javarush.jira.login.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ import java.util.stream.Collectors;
 @RequestMapping
 public class DashboardUIController {
 
+    private TaskMapper taskMapper;
     private TaskService taskService;
 
     private ProjectService projectService;
@@ -57,8 +59,11 @@ public class DashboardUIController {
     @PostMapping("/task/{ID}")
     public ResponseEntity<TaskTo> addTag(@PathVariable("ID") long id, @RequestBody Set<String> tags) {
         Task task = taskService.addTags(id, tags);
+        if (task == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
 
-        TaskMapperImpl taskMapper = new TaskMapperImpl();
+//        TaskMapperImpl taskMapper = new TaskMapperImpl();
         TaskTo taskTo = taskMapper.toTo(task);
 
         return ResponseEntity.ok(taskTo);
