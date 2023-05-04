@@ -63,7 +63,6 @@ public class DashboardUIController {
             return ResponseEntity.badRequest().body(null);
         }
 
-//        TaskMapperImpl taskMapper = new TaskMapperImpl();
         TaskTo taskTo = taskMapper.toTo(task);
 
         return ResponseEntity.ok(taskTo);
