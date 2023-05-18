@@ -19,6 +19,16 @@ JUnit
 Docker
 ## [REST API](http://localhost:8080/doc)
 
+
+Структура БД
+Как запустить приложение:
+
+Клонировать себе на машину проект
+Запустить локально сервер БД (PostgreSQL). Рекомендую это делать через docker:
+
+docker run -p 5432:5432 --name postgres-db -e POSTGRES_USER=jira -e POSTGRES_PASSWORD=JiraRush -e POSTGRES_DB=jira -e PGDATA=/var/lib/postgresql/data/pgdata -v ./pgdata:/var/lib/postgresql/data -d postgres
+
+Запустить Spring Boot приложение (JiraRushApplication) с профилем prod
 ## Концепция:
 - Spring Modulith
   - [Spring Modulith: достигли ли мы зрелости модульности](https://habr.com/ru/post/701984/)
