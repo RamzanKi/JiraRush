@@ -1,6 +1,22 @@
 доска задач аналог Jira или Trello.
 
-
+Технологии
+Spring Boot
+Spring JPA
+Hibernate
+PostgreSQL
+Liquibase (система управления версиями БД, в основном, ее структурой)
+Spring Security
+Spring MVC
+Thymeleaf
+jQuery
+Swagger (документирование API)
+Caffeine (кэш)
+Lombok
+Mapstruct (мапперы для преобразования между entity & DTO)
+Spring Test
+JUnit
+Docker
 ## [REST API](http://localhost:8080/doc)
 
 ## Концепция:
